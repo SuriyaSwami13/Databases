@@ -51,3 +51,8 @@ from details group by department;
 
 select department, round(avg(age)) as 'AvgAge'
 from details group by position;
+
+#dml
+delete from details where firstName='Jean' and lastName='Madden';
+
+delete from details where department='Nursing';

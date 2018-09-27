@@ -40,3 +40,15 @@ select sum(rate*hours) from details where gender='M';
 select department,avg(age) from details group by department; 
 #17
 select position,avg(age) from details group by department; 
+
+#lab2_rollup_etc
+select * from details;
+
+select department,gender,count(*) as 'Num of Employess'
+from details group by department, gender with rollup; 
+
+select department, avg(age)
+from details group by department;
+
+select department, round(avg(age)) as 'AvgAge'
+from details group by position;

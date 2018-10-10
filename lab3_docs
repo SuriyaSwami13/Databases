@@ -1,0 +1,39 @@
+Select * from prescriptions;
+#1
+Select count(*) as 'No.of Patients' from patients;  
+#2
+Select * from patients where town='Athlone';
+#3
+Select * from drugs where cost = 2.95;
+#4
+Select * from drugs where cost > 3.50;
+#5
+Select * from patients where dateOfBirth = (select max(dateOfBirth) from patients);
+#6
+Select * from patients where dateOfBirth = (select min(dateOfBirth) from patients);
+#7
+select * from doctors;
+#8
+select * from doctors order by lastName DESC;
+#9
+select * from doctors where firstName like '%a';
+#10
+select speciality,gender, count(*) gender from doctors group by speciality;
+#11
+select * from prescriptions where date_perscribed > 20120731;
+#12
+select distinct firstName, lastName from patients inner join 
+prescriptions on patients.pat_id = prescriptions.pat_id;
+#inner query
+select distinct firstName, lastName from patients 
+where pat_id in (select pat_id from prescriptions);
+#13
+select count(*) from prescriptions inner join doctors 
+on prescriptions.doc_id = doctors.doc_id 
+where speciality = 'Audiologist';
+#14
+select distinct drug_name from drugs inner join prescriptions
+on prescriptions.drug_id = drugs.drug_id;
+#15
+select drugs.drug_id, drug_name from drugs left join prescriptions
+on drugs.drug_id = prescriptions.drug_id order by prescriptions.drug_id limit 1;

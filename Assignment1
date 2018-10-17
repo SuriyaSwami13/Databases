@@ -1,0 +1,22 @@
+#1
+SELECT DATEDIFF(current_date(),"1998-06-13");
+#2
+Update doctors
+set lastName = 'Gajendra'
+where firstName = 'Lily';
+#3
+select drug_name, cost from drugs where cost=(select max(cost) from drugs);
+#4
+select drug_name, cost from drugs where cost=(select min(cost) from drugs);
+#5
+select firstName, lastName from patients where address2 is NULL;
+#6
+update patients
+set address2="Bhosri"
+where lastName="Fallon" and firstName="Emma";
+#7
+select avg(cost) as AverageCost from drugs;
+#8
+select speciality, count(speciality) from doctors group by speciality;
+#9
+select upper(speciality) from doctors;

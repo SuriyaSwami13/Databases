@@ -1,0 +1,95 @@
+create view details_view as select firstName, department from details; 
+
+select * from details_view;
+
+DELIMITER //
+
+
+create procedure update_department1
+(
+
+IN id_in INT(4), 
+IN department_in varchar(25)
+
+)
+BEGIN	
+    
+    Update details set department = department_in where id = id_in;
+END //
+DELIMITER ;
+
+CALL update_department1(1,"Psychology");
+
+drop procedure update_rate_position;
+DELIMITER //
+
+
+create procedure update_rate_position
+(
+	IN position_in varchar(25),
+    IN id_in INT,
+    OUT update_count INT
+)
+begin
+	Update details set position = position_in where id = id_in;
+	select @update_count;
+END //
+
+DELIMITER ;
+
+CALL update_rate_position("Researcher",20,@update_count);
+
+
+DELIMITER //
+CREATE Function average_age_per_position
+(
+position_param varchar(25)
+)
+
+RETURNS DECIMAL(9,2)
+
+BEGIN
+DECLARE avg_var DECIMAL(9,2); 
+/*select round(avg(avg))
+into avg_var
+from details
+where position = position_param;
+RETURN avg_var;*/
+select round(avg(age)) into avg_var from details;
+return avg_var;
+END//
+DELIMITER ; 
+select average_age_per_position("Lecturer");
+
+
+
+
+#1
+select * from orders where datediff(shipped_date,order_date) > 10;
+select * from customers;
+select * from order_details;
+select * from items;
+#2
+select concat(customer_first_name,' ',customer_last_name) from orders INNER JOIN customers on  orders.customer_id where order_id=70;
+#3
+select title from items INNER JOIN order_details on items.item_id = order_details.item_id where order_id = 264;
+#4
+DELIMITER //
+CREATE Function order_days
+(
+	order_id_param INT
+) 
+RETURNS INT
+BEGIN
+DECLARE days_var INT;
+select datediff(shipped_date,order_date)
+into days_var
+from orders
+where order_id =order_id_param;
+
+RETURN days_var;
+
+END //
+DELIMITER ;
+
+select order_days(29);

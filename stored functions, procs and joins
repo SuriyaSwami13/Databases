@@ -93,3 +93,45 @@ END //
 DELIMITER ;
 
 select order_days(29);
+
+
+
+/*drop table if exists employee_audit;
+
+create table employee_audit(
+	id INTEGER,
+    firstName VARCHAR(15),
+    action_type     VARCHAR(50),
+    action_date     DATETIME NOT NULL
+)*/
+DROP TRIGGER IF EXISTS details_after_delete;
+DELIMITER //
+	
+    CREATE TRIGGER details_after_delete
+		AFTER DELETE ON details
+		FOR EACH ROW
+    
+    BEGIN
+		INSERT INTO employee_audit values (OLD.id, OLD.firstName,"DELETED",NOW());
+	END//
+DELIMITER ;
+
+DELETE from details where id = 1;
+
+select * from employee_audit;
+
+select * from customers;
+
+DROP TRIGGER IF EXISTS CustomerState_before_update;
+
+DELIMITER //
+	CREATE TRIGGER CustomerState_before_update
+    BEFORE UPDATE ON customers
+    FOR EACH ROW 
+    BEGIN 
+		SET NEW.customer_first_name = UPPER(NEW.customer_first_name);
+	END//	
+DELIMITER ; 
+
+UPDATE customers set customer_first_name = "Gajodhar" where customer_id = 5;
+
